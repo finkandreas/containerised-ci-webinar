@@ -21,3 +21,4 @@ test software:
   variables:
     SLURM_NTASKS: 4
     SLURM_NNODES: 1
+    USE_MPI: 'YES'
