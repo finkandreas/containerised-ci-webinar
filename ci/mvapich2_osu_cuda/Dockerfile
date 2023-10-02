@@ -1,4 +1,4 @@
-FROM  nvidia/cuda:11.2.0-devel-ubuntu20.04 as builder
+FROM  nvidia/cuda:11.2.2-devel-ubuntu20.04 as builder
 
 LABEL "rfm.features"="osu-micro-benchmarks;mpi;serial;openmp;mvapich2"
 LABEL "rfm.cc"="mpicc"
@@ -53,7 +53,7 @@ RUN . /spack/share/spack/setup-env.sh && \
     # Add the mvapich2 lib path to ld.so.conf.d directory
     spack find --format='{prefix.lib}' mvapich2 > /etc/ld.so.conf.d/mvapich2.conf
 
-FROM nvidia/cuda:11.2.0-runtime-ubuntu20.04
+FROM nvidia/cuda:11.2.2-runtime-ubuntu20.04
 
 LABEL "rfm.features"="osu-micro-benchmarks;mpi;serial;openmp;cuda"
 LABEL "rfm.cc"="mpicc"
@@ -64,7 +64,7 @@ RUN apt-get update && apt-get install -y  \
     libpmi2-0-dev \
     libatomic1 \
     libgfortran5 \
-    libgomp1
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /opt/spack /opt/spack
