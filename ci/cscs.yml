@@ -6,6 +6,7 @@ stages:
 
 build software:
   extends: .container-builder
+  stage: build
   variables:
     PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/hello_world:01-$CI_COMMIT_SHORT_SHA
     DOCKERFILE: ci/docker/Dockerfile
