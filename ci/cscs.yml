@@ -8,6 +8,7 @@ stages:
 
 build base:
   extends: .container-builder-dynamic-name
+  stage: build_base
   variables:
     WATCH_FILECHANGES: ci/docker/Dockerfile.base
     DOCKERFILE: ci/docker/Dockerfile.base
