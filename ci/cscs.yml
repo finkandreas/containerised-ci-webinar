@@ -3,6 +3,7 @@ include:
 
 stages:
   - build
+  - test
 
 build software:
   extends: .container-builder
@@ -10,3 +11,12 @@ build software:
   variables:
     PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/hello_world:01-$CI_COMMIT_SHORT_SHA
     DOCKERFILE: ci/docker/Dockerfile
+
+test software
+  extends: .container-runner-daint-mc
+  stage: test
+  script:
+    - /build/hello
+  variables:
+    SLURM_NTASKS: 4
+    SLURM_NNODES: 1
