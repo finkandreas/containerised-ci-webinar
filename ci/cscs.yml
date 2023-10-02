@@ -35,7 +35,7 @@ run haswell:
     USE_MPI: 'YES'
 
 run zen2:
-  extends: .container-runner-eiger-mc
+  extends: .container-runner-hohgant-zen2
   stage: run
   image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_zen2
   script:
