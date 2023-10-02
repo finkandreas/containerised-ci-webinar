@@ -31,7 +31,7 @@ RUN mkdir -p /opt/spack/spack-env/ \
 &&   echo "        prefix: /usr/local/cuda " \
 &&   echo "      buildable: False " \
 &&   echo "  specs:" \
-&&   echo "  - osu-micro-benchmarks@5.9 +cuda ^mvapich2@2 +cuda process_managers=slurm" \
+&&   echo "  - osu-micro-benchmarks@5.9 +cuda ldflags='-L/usr/local/cuda/lib64/stubs' ^mvapich2@2 +cuda process_managers=slurm ldflags='-L/usr/local/cuda/lib64/stubs' " \
 &&   echo "  concretizer:" \
 &&   echo "    unify: true" \
 &&   echo "  config:" \
