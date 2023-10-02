@@ -3,6 +3,7 @@ include:
 
 stages:
   - build
+  - run
 
 build haswell:
   extends: .container-builder
@@ -12,7 +13,6 @@ build haswell:
     DOCKERFILE: ci/mpich_osu/Dockerfile
     DOCKER_BUILD_ARGS: '["TARGET=haswell"]'
 
-
 build zen2:
   extends: .container-builder
   stage: build
@@ -20,3 +20,28 @@ build zen2:
     PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_zen2
     DOCKERFILE: ci/mpich_osu/Dockerfile
     DOCKER_BUILD_ARGS: '["TARGET=zen2"]'
+
+
+run haswell:
+  extends: .container-runner-daint-gpu
+  stage: test
+  image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_haswell
+  script:
+    - osu_bw
+    - osu_latency
+  variables:
+    SLURM_NTASKS: 2
+    SLURM_NNODES: 2
+    USE_MPI: 'YES'
+
+run zen2:
+  extends: .container-runner-eiger-mc
+  stage: test
+  image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_zen2
+  script:
+    - osu_bw
+    - osu_latency
+  variables:
+    SLURM_NTASKS: 2
+    SLURM_NNODES: 2
+    USE_MPI: 'YES'
