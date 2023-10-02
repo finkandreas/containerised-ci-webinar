@@ -28,7 +28,6 @@ run haswell:
   image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_haswell
   script:
     - osu_bw
-    - osu_latency
   variables:
     SLURM_NTASKS: 2
     SLURM_NNODES: 2
@@ -40,7 +39,6 @@ run zen2:
   image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_zen2
   script:
     - osu_bw
-    - osu_latency
   variables:
     SLURM_NTASKS: 2
     SLURM_NNODES: 2
