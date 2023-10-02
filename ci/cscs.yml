@@ -24,7 +24,7 @@ build zen2:
 
 run haswell:
   extends: .container-runner-daint-gpu
-  stage: test
+  stage: run
   image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_haswell
   script:
     - osu_bw
@@ -36,7 +36,7 @@ run haswell:
 
 run zen2:
   extends: .container-runner-eiger-mc
-  stage: test
+  stage: run
   image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_zen2
   script:
     - osu_bw
