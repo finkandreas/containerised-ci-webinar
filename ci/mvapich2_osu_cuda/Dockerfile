@@ -55,6 +55,7 @@ RUN . /spack/share/spack/setup-env.sh && \
 
 FROM docker.io/nvidia/cuda:11.2.2-runtime-ubuntu20.04
 
+LABEL "maintainer"="cscs-ci-demo"
 LABEL "rfm.features"="osu-micro-benchmarks;mpi;serial;openmp;cuda"
 LABEL "rfm.cc"="mpicc"
 LABEL "rfm.cxx"="mpic++"
