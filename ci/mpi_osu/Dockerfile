@@ -21,7 +21,7 @@ RUN mkdir -p /opt/spack/spack-env/ \
 &&  echo "    all:"\
 &&  echo "      target: [${TARGET}]"\
 &&  echo "  specs:" \
-&&  echo "  - osu-micro-benchmarks@6 ^${MPICH_SPEC}" \
+&&  echo "  - osu-micro-benchmarks@6 ^${MPI_SPEC}" \
 &&  echo "  concretizer:" \
 &&  echo "    unify: true" \
 &&  echo "  config:" \
