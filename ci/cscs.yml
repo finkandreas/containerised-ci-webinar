@@ -29,8 +29,9 @@ run haswell:
   script:
     - osu_bw
   variables:
-    SLURM_NTASKS: 2
-    SLURM_NNODES: 2
+    SLURM_JOB_NUM_NODES: 2
+    SLURM_PARTITION: normal
+    SLURM_NUM_NTASKS: 2
     USE_MPI: 'YES'
 
 run zen2:
@@ -40,6 +41,7 @@ run zen2:
   script:
     - osu_bw
   variables:
+    SLURM_JOB_NUM_NODES: 2
+    SLURM_PARTITION: normal
     SLURM_NTASKS: 2
-    SLURM_NNODES: 2
     USE_MPI: 'YES'
