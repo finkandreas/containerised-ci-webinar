@@ -4,7 +4,8 @@ ARG NUM_PROCS
 
 RUN spack-install-helper \
     daint-mc \
-    cmake
+    cmake \
+    osu-micro-benchmarks
 
 # copy only relevant parts to the final container
 FROM docker.io/finkandreas/spack:base-ubuntu22.04
