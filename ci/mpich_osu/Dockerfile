@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 RUN git clone -b ${SPACK_TAG} --depth 1 https://github.com/spack/spack.git
 
 RUN mkdir -p /opt/spack/spack-env/ \
-&& export MPICH_SPEC=$([ "${TARGET}" = 'haswell' ] && echo 'mpich@3.4.3 pmi=pmi2' || echo 'mpich@4.1 netmod=ofi +slurm pmi=pmi2') \
+&& export MPICH_SPEC='mpich@3.1.4 +slurm pmi=pmi2' \
 && (echo "spack: " \
 &&  echo "  packages: "\
 &&  echo "    all:"\

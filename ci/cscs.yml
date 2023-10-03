@@ -9,7 +9,7 @@ build haswell:
   extends: .container-builder
   stage: build
   variables:
-    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_haswell
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/mpich_osu:3.1.4_6.0_haswell
     DOCKERFILE: ci/mpich_osu/Dockerfile
     DOCKER_BUILD_ARGS: '["TARGET=haswell"]'
 
@@ -17,7 +17,7 @@ build zen2:
   extends: .container-builder
   stage: build
   variables:
-    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/mpich_osu:4.1_6.0_zen2
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/mpich_osu:3.1.4_6.0_zen2
     DOCKERFILE: ci/mpich_osu/Dockerfile
     DOCKER_BUILD_ARGS: '["TARGET=zen2"]'
 
@@ -25,7 +25,7 @@ build zen2:
 run haswell:
   extends: .container-runner-daint-gpu
   stage: run
-  image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_haswell
+  image: $CSCS_REGISTRY_PATH/mpich_osu:3.1.4_6.0_haswell
   script:
     - osu_bw
   variables:
@@ -37,7 +37,7 @@ run haswell:
 run zen2:
   extends: .container-runner-hohgant-zen2
   stage: run
-  image: $CSCS_REGISTRY_PATH/mpich_osu:4.1_6.0_zen2
+  image: $CSCS_REGISTRY_PATH/mpich_osu:3.1.4_6.0_zen2
   script:
     - osu_bw
   variables:
