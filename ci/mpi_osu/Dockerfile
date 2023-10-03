@@ -57,7 +57,7 @@ COPY --from=builder /opt/spack /opt/spack
 COPY --from=builder /etc/profile.d/z10_spack_environment.sh /etc/profile.d/z10_spack_environment.sh
 
 # For the sarus mpi hook
-COPY --from=builder /etc/ld.so.conf.d/mpich.conf /etc/ld.so.conf.d/mpi.conf
+COPY --from=builder /etc/ld.so.conf.d/mpi.conf /etc/ld.so.conf.d/mpi.conf
 RUN ldconfig
 
 ENTRYPOINT ["/bin/bash", "--rcfile", "/etc/profile", "-l", "-c"]

@@ -42,4 +42,5 @@ run zen2:
   variables:
     SLURM_JOB_NUM_NODES: 2
     SLURM_NTASKS: 2
+    SLURM_MPI_TYPE: pmi2
     USE_MPI: 'YES'
