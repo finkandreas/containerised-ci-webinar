@@ -19,8 +19,9 @@ run osu_bw cuda:
   script:
     - bash -c 'MPICH_RDMA_ENABLED_CUDA=1 osu_bw -d cuda D D'
   variables:
+    SLURM_JOB_NUM_NODES: 2
+    SLURM_PARTITION: normal
     SLURM_NTASKS: 2
-    SLURM_NNODES: 2
     USE_MPI: 'YES'
 
 run osu_bw cpu:
@@ -30,6 +31,7 @@ run osu_bw cpu:
   script:
     - osu_bw
   variables:
+    SLURM_JOB_NUM_NODES: 2
+    SLURM_PARTITION: normal
     SLURM_NTASKS: 2
-    SLURM_NNODES: 2
     USE_MPI: 'YES'
