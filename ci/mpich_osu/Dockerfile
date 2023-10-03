@@ -15,18 +15,19 @@ RUN apt-get update && apt-get install -y \
 RUN git clone -b ${SPACK_TAG} --depth 1 https://github.com/spack/spack.git
 
 RUN mkdir -p /opt/spack/spack-env/ \
-&&  (echo "spack:" \
-&&   echo "  packages:"\
-&&   echo "    all:"\
-&&   echo "      target: [${TARGET}]"\
-&&   echo "  specs:" \
-&&   echo "  - osu-micro-benchmarks@6 ^mpich@3.4.3 pmi=pmi2" \
-&&   echo "  concretizer:" \
-&&   echo "    unify: true" \
-&&   echo "  config:" \
-&&   echo "    install_tree:"\
-&&   echo "      root: /opt/spack/software" \
-&&   echo "  view: /opt/spack/view") > /opt/spack/spack-env/spack.yaml
+&& export MPICH_SPEC=$([ "${TARGET}" = 'haswell' ] && echo 'mpich@3.4.3 pmi=pmi2' || echo 'mpich@4.1 netmod=ofi +slurm pmi=pmi2') \
+&& (echo "spack: " \
+&&  echo "  packages: "\
+&&  echo "    all:"\
+&&  echo "      target: [${TARGET}]"\
+&&  echo "  specs:" \
+&&  echo "  - osu-micro-benchmarks@6 ^${MPICH_SPEC}" \
+&&  echo "  concretizer:" \
+&&  echo "    unify: true" \
+&&  echo "  config:" \
+&&  echo "    install_tree:"\
+&&  echo "      root: /opt/spack/software" \
+&&  echo "  view: /opt/spack/view") > /opt/spack/spack-env/spack.yaml
 
 RUN . /spack/share/spack/setup-env.sh && \
     spack compiler find && \
