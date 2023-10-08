@@ -1,2 +1,46 @@
 include:
   - remote: 'https://gitlab.com/cscs-ci/recipes/-/raw/master/templates/v2/.ci-ext.yml'
+
+stages:
+  - build
+  - run
+
+build haswell:
+  extends: .container-builder
+  stage: build
+  variables:
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_haswell
+    DOCKERFILE: ci/mpi_osu/Dockerfile
+    DOCKER_BUILD_ARGS: '["TARGET=haswell"]'
+
+build zen2:
+  extends: .container-builder
+  stage: build
+  variables:
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/mvapich2_osu:2_6.0_zen2
+    DOCKERFILE: ci/mpi_osu/Dockerfile
+    DOCKER_BUILD_ARGS: '["TARGET=zen2"]'
+
+run haswell:
+  extends: .container-runner-daint-gpu
+  stage: run
+  image: $CSCS_REGISTRY_PATH/mpich_osu:3.4.3_6.0_haswell
+  script:
+    - osu_bw
+  variables:
+    SLURM_JOB_NUM_NODES: 2
+    SLURM_PARTITION: normal
+    SLURM_NUM_NTASKS: 2
+    USE_MPI: 'YES'
+
+run zen2:
+  extends: .container-runner-hohgant-zen2
+  stage: run
+  image: $CSCS_REGISTRY_PATH/mvapich2_osu:2_6.0_zen2
+  script:
+    - osu_bw
+  variables:
+    SLURM_JOB_NUM_NODES: 2
+    SLURM_NTASKS: 2
+    SLURM_MPI_TYPE: pmi2
+    USE_MPI: 'YES'
