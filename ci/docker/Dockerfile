@@ -1,0 +1,37 @@
+FROM docker.io/finkandreas/spack:0.19.2-ubuntu22.04 as builder
+
+ARG NUM_PROCS
+
+RUN spack-install-helper \
+    daint-mc \
+    cmake \
+    'osu-micro-benchmarks@6.2'
+
+# copy only relevant parts to the final container
+FROM docker.io/finkandreas/spack:base-ubuntu22.04
+
+ARG NUM_PROCS
+
+# it is important to keep the paths, otherwise your installation is broken
+# all these paths are created with the above `spack-install-helper` invocation
+COPY --from=builder /opt/spack-environment /opt/spack-environment
+COPY --from=builder /opt/software /opt/software
+COPY --from=builder /opt/._view /opt/._view
+COPY --from=builder /etc/profile.d/z10_spack_environment.sh /etc/profile.d/z10_spack_environment.sh
+
+# Some boilerplate to get all paths correctly - fix_spack_install is part of the base image
+# and makes sure that all important things are being correctly setup
+RUN fix_spack_install
+
+# Finally install software that is needed, e.g. compilers
+# It is also possible to build compilers via spack and let all dependencies be handled by spack
+RUN apt-get -yqq update && apt-get -yqq upgrade \
+ && apt-get -yqq install build-essential gfortran \
+ && rm -rf /var/lib/apt/lists/*
+
+# build the software of this repository
+COPY . /sourcecode
+RUN mkdir /build \
+  && cd /build \
+  && cmake ../sourcecode \
+  && make -j$NUM_PROCS
