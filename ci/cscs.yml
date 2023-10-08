@@ -1,2 +1,38 @@
 include:
   - remote: 'https://gitlab.com/cscs-ci/recipes/-/raw/master/templates/v2/.ci-ext.yml'
+
+stages:
+  - build
+  - run
+
+build image:
+  extends: .container-builder
+  stage: build
+  variables:
+    CSCS_REBUILD_POLICY: always
+    PERSIST_IMAGE_NAME: $CSCS_REGISTRY_PATH/mvapich2_osu:2_5.9_cuda_haswell
+    DOCKERFILE: ci/mvapich2_osu_cuda/Dockerfile
+
+run osu_bw cuda:
+  extends: .container-runner-daint-gpu
+  stage: run
+  image: $CSCS_REGISTRY_PATH/mvapich2_osu:2_5.9_cuda_haswell
+  script:
+    - bash -c 'MPICH_RDMA_ENABLED_CUDA=1 osu_bw -d cuda D D'
+  variables:
+    SLURM_JOB_NUM_NODES: 2
+    SLURM_PARTITION: normal
+    SLURM_NTASKS: 2
+    USE_MPI: 'YES'
+
+run osu_bw cpu:
+  extends: .container-runner-daint-gpu
+  stage: run
+  image: $CSCS_REGISTRY_PATH/mvapich2_osu:2_5.9_cuda_haswell
+  script:
+    - osu_bw
+  variables:
+    SLURM_JOB_NUM_NODES: 2
+    SLURM_PARTITION: normal
+    SLURM_NTASKS: 2
+    USE_MPI: 'YES'
